@@ -108,35 +108,35 @@ namespace stb::image
 
     bool                                           //
     is_hdr [[nodiscard]] (const std::byte* buffer, //
-                          int len);
+                          int len) noexcept;
 
     bool //
-    is_hdr [[nodiscard]] (io_callbacks callbacks);
+    is_hdr [[nodiscard]] (io_callbacks callbacks) noexcept;
 
     bool //
-    is_hdr [[nodiscard]] (const std::filesystem::path& filename);
+    is_hdr [[nodiscard]] (const std::filesystem::path& filename) noexcept;
 
     bool //
-    is_hdr [[nodiscard]] (std::FILE* f);
+    is_hdr [[nodiscard]] (std::FILE* f) noexcept;
 
     const char* //
-    failure_reason [[nodiscard]] ();
+    failure_reason [[nodiscard]] () noexcept;
 
     void //
-    free(void* load_result);
+    free(void* load_result) noexcept;
 
     info                                              //
     read_info [[nodiscard]] (const std::byte* buffer, //
-                             int len);
+                             int len) noexcept;
 
     info //
-    read_info [[nodiscard]] (io_callbacks callbacks);
+    read_info [[nodiscard]] (io_callbacks callbacks) noexcept;
 
     info //
-    read_info [[nodiscard]] (const std::filesystem::path& filename);
+    read_info [[nodiscard]] (const std::filesystem::path& filename) noexcept;
 
     info //
-    read_info [[nodiscard]] (std::FILE* f);
+    read_info [[nodiscard]] (std::FILE* f) noexcept;
 }; // namespace stb::image
 
 #endif // INCLUDE_STB_HXX

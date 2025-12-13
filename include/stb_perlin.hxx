@@ -1,142 +1,37 @@
-#ifndef INCLUDE_STB_HXX
-#define INCLUDE_STB_HXX
+#ifndef INCLUDE_STB_PERLIN_HXX
+#define INCLUDE_STB_PERLIN_HXX
 
-#include <cstdio>
-#include <vector>
-#include <functional>
-#include <filesystem>
+#include <array>
 
-namespace stb::image
+namespace stb
 {
-    enum class loading_states : std::uint8_t
+    struct perlin_noise_generator
     {
-        unpremultiply,
-        iphone_png_to_rgb,
-        flip_vertically,
+        std::array<float, 3> coord_ = {};
+
+        float //
+        noise [[nodiscard]] (std::array<int, 3> wrap = {0, 0, 0}) noexcept;
+
+        float                          //
+        noise [[nodiscard]] (int seed, //
+                             std::array<float, 3> wrap = {0, 0, 0}) noexcept;
+
+        float                                        //
+        ridge_noise [[nodiscard]] (float lacunarity, //
+                                   float gain,
+                                   float offset,
+                                   int octaves) noexcept;
+
+        float                                      //
+        fbm_noise [[nodiscard]] (float lacunarity, //
+                                 float gain,
+                                 int octaves) noexcept;
+
+        float                                             //
+        turbulence_noise [[nodiscard]] (float lacunarity, //
+                                        float gain,
+                                        int octaves) noexcept;
     };
+}; // namespace stb
 
-    enum class hdr_to_ldr : std::uint8_t
-    {
-        gama,
-        scale
-    };
-
-    enum class ldr_to_hdr : std::uint8_t
-    {
-        gama,
-        scale
-    };
-
-    void //
-    set(loading_states name, bool state);
-
-    void //
-    set(hdr_to_ldr name, float value);
-
-    void //
-    set(ldr_to_hdr name, float value);
-
-    namespace this_thread
-    {
-        void //
-        set(loading_states name, bool state);
-    }; // namespace this_thread
-
-    struct io_callbacks
-    {
-        std::function<int(std::byte* data, int size)> read_ = {};
-        std::function<void(int n)> skip_ = {};
-        std::function<bool()> eof_ = {};
-    };
-
-    struct info
-    {
-        int x_;
-        int y_;
-        int comp_;
-    };
-
-    std::byte*                                   //
-    load [[nodiscard]] (const std::byte* buffer, //
-                        int len,
-                        info& info,
-                        int desired_channels) noexcept;
-
-    std::byte*                                  //
-    load [[nodiscard]] (io_callbacks callbacks, //
-                        info& info,
-                        int desired_channels) noexcept;
-
-    std::byte*                                                 //
-    load [[nodiscard]] (const std::filesystem::path& filename, //
-                        info& info,
-                        int desired_channels) noexcept;
-
-    std::byte*                        //
-    load [[nodiscard]] (std::FILE* f, //
-                        info& info,
-                        int desired_channels) noexcept;
-
-    std::byte*                                       //
-    load_gif [[nodiscard]] (const std::byte* buffer, //
-                            int len,
-                            std::vector<int*>& delays,
-                            info& info,
-                            int& z,
-                            int req_comp) noexcept;
-
-    float*                                        //
-    loadf [[nodiscard]] (const std::byte* buffer, //
-                         int len,
-                         info& info,
-                         int desired_channels) noexcept;
-
-    float*                                       //
-    loadf [[nodiscard]] (io_callbacks callbacks, //
-                         info& info,
-                         int desired_channels) noexcept;
-
-    float*                                                      //
-    loadf [[nodiscard]] (const std::filesystem::path& filename, //
-                         info& info,
-                         int desired_channels) noexcept;
-
-    float*                             //
-    loadf [[nodiscard]] (std::FILE* f, //
-                         info& info,
-                         int desired_channels) noexcept;
-
-    bool                                           //
-    is_hdr [[nodiscard]] (const std::byte* buffer, //
-                          int len) noexcept;
-
-    bool //
-    is_hdr [[nodiscard]] (io_callbacks callbacks) noexcept;
-
-    bool //
-    is_hdr [[nodiscard]] (const std::filesystem::path& filename) noexcept;
-
-    bool //
-    is_hdr [[nodiscard]] (std::FILE* f) noexcept;
-
-    const char* //
-    failure_reason [[nodiscard]] () noexcept;
-
-    void //
-    free(void* load_result) noexcept;
-
-    info                                              //
-    read_info [[nodiscard]] (const std::byte* buffer, //
-                             int len) noexcept;
-
-    info //
-    read_info [[nodiscard]] (io_callbacks callbacks) noexcept;
-
-    info //
-    read_info [[nodiscard]] (const std::filesystem::path& filename) noexcept;
-
-    info //
-    read_info [[nodiscard]] (std::FILE* f) noexcept;
-}; // namespace stb::image
-
-#endif // INCLUDE_STB_HXX
+#endif // INCLUDE_STB_PERLIN_HXX
