@@ -220,7 +220,7 @@ stb::image::loadf(std::FILE* f, //
 }
 
 bool //
-stb::image::is_hdr(io_callbacks callbacks)
+stb::image::is_hdr(io_callbacks callbacks) noexcept
 {
     stbi_io_callbacks stb_cb = {};
     stb_cb.read = io_callbacks_bridge_read;
@@ -231,41 +231,41 @@ stb::image::is_hdr(io_callbacks callbacks)
 
 bool                                        //
 stb::image::is_hdr(const std::byte* buffer, //
-                   int len)
+                   int len) noexcept
 {
     return stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(buffer), //
                                    len);
 }
 
 bool //
-stb::image::is_hdr(const std::filesystem::path& filename)
+stb::image::is_hdr(const std::filesystem::path& filename) noexcept
 {
     std::string name_str = filename.string();
     return stbi_is_hdr(name_str.c_str());
 }
 
 bool //
-stb::image::is_hdr(std::FILE* f)
+stb::image::is_hdr(std::FILE* f) noexcept
 {
     return stbi_is_hdr_from_file(f);
 }
 
 const char* //
-stb::image::failure_reason()
+stb::image::failure_reason() noexcept
 {
     const char* err = stbi_failure_reason();
     return err == nullptr ? "stb::image: no error" : err;
 }
 
 void //
-stb::image::free(void* load_result)
+stb::image::free(void* load_result) noexcept
 {
     stbi_image_free(load_result);
 }
 
 stb::image::info                               //
 stb::image::read_info(const std::byte* buffer, //
-                      int len)
+                      int len) noexcept
 {
     info i = {};
     stbi_info_from_memory(reinterpret_cast<const stbi_uc*>(buffer), //
@@ -274,7 +274,7 @@ stb::image::read_info(const std::byte* buffer, //
 }
 
 stb::image::info //
-stb::image::read_info [[nodiscard]] (io_callbacks callbacks)
+stb::image::read_info [[nodiscard]] (io_callbacks callbacks) noexcept
 {
     info i = {};
     stbi_io_callbacks stb_cb = {};
@@ -286,7 +286,7 @@ stb::image::read_info [[nodiscard]] (io_callbacks callbacks)
 }
 
 stb::image::info //
-stb::image::read_info(const std::filesystem::path& filename)
+stb::image::read_info(const std::filesystem::path& filename) noexcept
 {
     info i = {};
     std::string name_str = filename.string();
@@ -295,7 +295,7 @@ stb::image::read_info(const std::filesystem::path& filename)
 }
 
 stb::image::info //
-stb::image::read_info(std::FILE* f)
+stb::image::read_info(std::FILE* f) noexcept
 {
     info i = {};
     stbi_info_from_file(f, &i.x_, &i.y_, &i.comp_);
